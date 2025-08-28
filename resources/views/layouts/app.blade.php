@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/app.css')}}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/init-alpine.js') }}"></script>
@@ -104,7 +104,6 @@
     @include('layouts.navigation-mobile')
 
     <div class="flex flex-col flex-1 w-full">
-        @include('layouts.top-menu')
 
         <main class="h-full overflow-y-auto">
             <div class="container px-6 mx-auto grid">
@@ -140,6 +139,6 @@
     });
 </script>
 
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('resources/js/app.js') }}"></script>
 </body>
 </html>

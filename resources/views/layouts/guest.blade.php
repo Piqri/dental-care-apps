@@ -8,7 +8,7 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/app.css')}}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/init-alpine.js') }}"></script>
@@ -20,6 +20,7 @@
             {{ $slot }}
         </div>
     </div>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('resources/js/app.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 </html>
