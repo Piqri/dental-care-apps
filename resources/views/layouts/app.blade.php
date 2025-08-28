@@ -7,7 +7,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/init-alpine.js') }}"></script>
@@ -139,5 +140,6 @@
     });
 </script>
 
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
