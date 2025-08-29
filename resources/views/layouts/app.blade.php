@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/init-alpine.js') }}"></script>
@@ -19,15 +19,15 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-    <!-- ✅ Tailwind CSS - Prebuilt CDN (Production Ready) -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.13/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Tailwind CSS - Updated to latest version -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.0/dist/tailwind.min.css" rel="stylesheet">
 
     <!-- SELECT2 CSS - KOMPATIBILITAS DENGAN TAILWIND -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-tailwindcss@1.4.0/dist/select2-tailwindcss.min.css">
 
-    <!-- ❌ Dihapus, karena tidak production ready -->
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <!-- Optional: Tailwind CSS Script untuk kustomisasi real-time -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Tailwind Config untuk konsistensi -->
     <script>
@@ -140,6 +140,6 @@
     });
 </script>
 
-{{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
