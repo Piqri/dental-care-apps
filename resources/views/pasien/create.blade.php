@@ -79,9 +79,10 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="nama" class="text-sm font-medium text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
-                                    <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                        required>
+                                    <input type="text" name="nama" id="nama"
+                                    value="{{ old('nama') }}"
+                                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]" 
+                                    required>
                                     @error('nama')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -101,7 +102,7 @@
                                 <div>
                                     <label for="tempat_lahir" class="text-sm font-medium text-gray-700">Tempat Lahir <span class="text-red-500">*</span></label>
                                     <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]"
                                         required>
                                     @error('tempat_lahir')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -110,7 +111,7 @@
                                 <div>
                                     <label for="tanggal_lahir" class="text-sm font-medium text-gray-700">Tanggal Lahir <span class="text-red-500">*</span></label>
                                     <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]"
                                         required>
                                     @error('tanggal_lahir')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -132,7 +133,7 @@
                                                 inputmode="numeric" pattern="\d*"
                                                 maxlength="16"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,16);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nik')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -143,7 +144,7 @@
                                             <input type="text" name="no_wa" id="no_wa_ibu_hamil" value="{{ old('no_wa') }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -166,7 +167,7 @@
                                         <div>
                                             <label for="nama_orang_tua" class="text-sm font-medium text-gray-700">Nama Orang Tua <span class="text-red-500">*</span></label>
                                             <input type="text" name="nama_orang_tua" id="nama_orang_tua" value="{{ old('nama_orang_tua') }}"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nama_orang_tua')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -176,7 +177,7 @@
                                             <input type="text" name="no_wa" id="no_wa_anak_sekolah" value="{{ old('no_wa') }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -204,7 +205,7 @@
                                                 inputmode="numeric" pattern="\d*"
                                                 maxlength="16"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,16);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nik')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -215,7 +216,7 @@
                                             <input type="text" name="no_wa" id="no_wa_caten" value="{{ old('no_wa') }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -249,6 +250,9 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/pasien-form.js') }}"></script>
+ @push('scripts')
+<script src="{{ asset('js/pasien-form.js') }}"></script>
+@endpush
+
 
 </x-app-layout>

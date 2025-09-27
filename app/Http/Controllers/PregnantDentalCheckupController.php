@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Pasien;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Crypt;
 
 class PregnantDentalCheckupController extends Controller
 {
@@ -17,7 +18,7 @@ class PregnantDentalCheckupController extends Controller
     {
         // Get search query
         $search = $request->query('search');
-
+    
         // Query with eager loading
         $query = PregnantDentalCheckup::with('pasien')
             ->when($search, function ($query, $search) {
@@ -26,14 +27,22 @@ class PregnantDentalCheckupController extends Controller
                       ->orWhere('nik', 'like', '%' . $search . '%');
                 });
             });
-
+    
         // Order by latest first
         $query->latest();
-
+    
         // Paginate results
         $checkups = $query->paginate(10);
-
-        return view('pregnant-dental-checkups.index', compact('checkups'));
+    
+        // Calculate simplified statistics
+        $stats = [
+            'need_action' => PregnantDentalCheckup::where(function($q) {
+                $q->where('saran_konsultasi', 'Ya')
+                  ->orWhere('saran_kontrol_rutin', 'Ya');
+            })->count()
+        ];
+    
+        return view('pregnant-dental-checkups.index', compact('checkups', 'stats'));
     }
 
     /**
@@ -111,6 +120,7 @@ class PregnantDentalCheckupController extends Controller
 
         return view('pregnant-dental-checkups.show', compact('pregnantDentalCheckup'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -243,31 +253,47 @@ class PregnantDentalCheckupController extends Controller
             'kondisi_pendarahan' => 'PENDARAHAN'
         ];
 
+        // Buat hash dari ID (tidak reversible — cocok untuk 'masking' id)
+        $hash = hash('sha256', $checkup->id . config('app.key'));
+
+        // Buat link publik dengan hash (route yang akan kita sediakan di routes/web.php)
+        $linkHasil = route('pregnant-dental-checkups.public', $hash);
+
+        // ----- buat pesan WA -----
         $message = "HASIL PEMERIKSAAN GIGI IBU HAMIL\n\n";
         $message .= "Nama: {$checkup->pasien->nama}\n";
         $message .= "Tanggal: " . now()->translatedFormat('l, d F Y') . "\n\n";
 
         $message .= "HASIL PEMERIKSAAN:\n";
-
         foreach ($kondisiFields as $field => $label) {
             $message .= "{$label} : " . ($checkup->$field ? 'ADA' : 'TIDAK') . "\n";
         }
 
-        $message .= "\n";
-
+        $message .= "\nSARAN:\n";
         if ($checkup->saran_konsultasi == 'Ya') {
-            $message .= "Disarankan untuk melakukan konsultasi dan perawatan ke dokter gigi\n";
+            $message .= "• Disarankan untuk melakukan konsultasi dan perawatan ke dokter gigi\n";
         }
-
         if ($checkup->saran_kontrol_rutin == 'Ya') {
-            $message .= "Disarankan untuk melakukan kontrol rutin 6x sekali\n";
+            $message .= "• Disarankan untuk melakukan kontrol rutin 6x sekali\n";
         }
 
-        return response()->json([
-            'message' => $message,
-            'phone' => $checkup->pasien->no_wa
-        ]);
+        if ($checkup->catatan) {
+            $message .= "\nCATATAN:\n{$checkup->catatan}\n";
+        }
+
+        $message .= "\n🔗 *LINK HASIL PEMERIKSAAN LENGKAP:*\n{$linkHasil}\n\n";
+        $message .= "Terima kasih.";
+
+        $encodedMessage = urlencode($message);
+
+        $phone = $checkup->pasien->no_wa;
+        $phone = preg_replace('/^\+/', '', $phone);
+        $phone = preg_replace('/^0/', '62', $phone);
+
+        return redirect()->away("https://wa.me/{$phone}?text={$encodedMessage}");
     }
+
+
 
     public function print($id)
     {
@@ -278,5 +304,25 @@ class PregnantDentalCheckupController extends Controller
 
         return $pdf->stream('pemeriksaan-gigi-ibu-hamil-'.$pregnantDentalCheckup->pasien->nama.'.pdf');
     }
+    
+    public function showPublic($hash)
+    {
+        $found = null;
 
+        // cursor() lebih hemat memori daripada get() pada dataset besar
+        foreach (PregnantDentalCheckup::cursor() as $item) {
+            if (hash('sha256', $item->id . config('app.key')) === $hash) {
+                $found = $item->load('pasien');
+                break;
+            }
+        }
+
+        if (!$found) {
+            abort(404, 'Data tidak ditemukan');
+        }
+
+        $pregnantDentalCheckup = $found;
+
+        return view('pregnant-dental-checkups.show', compact('pregnantDentalCheckup'));
+    }
 }

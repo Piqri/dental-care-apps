@@ -19,7 +19,7 @@
                 <!-- Form Section -->
                 <form method="POST" action="{{ route('school-child-dental-checkups.update', $schoolChildDentalCheckup->id) }}">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="px-6 py-4 space-y-6">
                         <!-- Patient Information (Read-only) -->
                         <div>

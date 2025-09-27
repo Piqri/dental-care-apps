@@ -24,15 +24,22 @@
                         <!-- Patient Selection with Search -->
                         <label for="pasien_id" class="block text-sm font-medium text-gray-700 mb-1">Pasien *</label>
                         <div class="relative">
-                            <select name="pasien_id" id="pasien_id" required
-                                    class="select2-search block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('pasien_id') border-red-500 @enderror">
-                                @isset($pasien)
-                                    {{-- Preselect jika datang dari show pasien --}}
+                            @isset($pasien)
+                                {{-- Readonly jika datang dari show pasien --}}
+                                <select name="pasien_id" id="pasien_id" required readonly disabled
+                                        class="block w-full rounded-md border border-gray-300 bg-gray-100 py-2 px-3 shadow-sm sm:text-sm cursor-not-allowed">
                                     <option value="{{ $pasien->id }}" selected>
                                         {{ $pasien->nama }} (NIK: {{ $pasien->nik }}, {{ $pasien->umur }} tahun)
                                     </option>
-                                @endisset
-                            </select>
+                                </select>
+                                {{-- Hidden input untuk mengirim nilai --}}
+                                <input type="hidden" name="pasien_id" value="{{ $pasien->id }}">
+                            @else
+                                {{-- Select2 searchable jika tidak ada preselect --}}
+                                <select name="pasien_id" id="pasien_id" required
+                                        class="select2-search block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('pasien_id') border-red-500 @enderror">
+                                </select>
+                            @endisset
                         </div>
                         @error('pasien_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -338,11 +345,11 @@
     <!-- Include Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <link href="{{ asset('app/search.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/search.css') }}" rel="stylesheet">
 
     <script>
         const pasienSearchUrl = "{{ route('ajax.caten-search') }}";
     </script>
 
-    <script src="{{ asset('app/caten-search.js') }}"></script>
+    <script src="{{ asset('js/caten-search.js') }}"></script>
 </x-app-layout>

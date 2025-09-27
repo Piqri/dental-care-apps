@@ -8,27 +8,16 @@
                     <p class="text-gray-600 mt-1">Informasi lengkap pemeriksaan kesehatan gigi dan mulut</p>
                 </div>
                 <div class="flex space-x-2">
+                    @auth
                     <!-- Tombol WhatsApp -->
-                    <button onclick="sendToWhatsApp(
-                        '{{ $catenDentalCheckup->pasien->nama }}',
-                        '{{ $catenDentalCheckup->pasien->no_wa }}',
-                        {
-                            kondisi_karies: {{ $catenDentalCheckup->kondisi_karies ? 'true' : 'false' }},
-                            kondisi_sisa_akar: {{ $catenDentalCheckup->kondisi_sisa_akar ? 'true' : 'false' }},
-                            kondisi_karang_gigi: {{ $catenDentalCheckup->kondisi_karang_gigi ? 'true' : 'false' }},
-                            kondisi_gusi_bengkak: {{ $catenDentalCheckup->kondisi_gusi_bengkak ? 'true' : 'false' }},
-                            kondisi_gigi_goyang: {{ $catenDentalCheckup->kondisi_gigi_goyang ? 'true' : 'false' }},
-                            kondisi_pendarahan: {{ $catenDentalCheckup->kondisi_pendarahan ? 'true' : 'false' }},
-                        },
-                        '{{ $catenDentalCheckup->saran_konsultasi }}',
-                        '{{ $catenDentalCheckup->saran_kontrol_rutin }}'
-                    )"
-                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition">
+                    <a href="{{ route('caten-dental-checkups.whatsapp', $catenDentalCheckup->id) }}"
+                       target="_blank"
+                       class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition">
                         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>
                         Kirim ke WA
-                    </button>
+                    </a>
                     <!-- Tombol Print PDF (Baru ditambahkan) -->
                     <a href="{{ route('caten-dental-checkups.print', $catenDentalCheckup->id) }}" target="_blank"
                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
@@ -51,6 +40,7 @@
                         </svg>
                         Kembali
                     </a>
+                    @endauth
                 </div>
             </div>
 
@@ -299,5 +289,5 @@
         </div>
     </div>
 
-    <script src="{{ asset('app/sendToWhatsApp.js') }}"></script>
+    <script src="{{ asset('js/sendToWhatsApp.js') }}"></script>
 </x-app-layout>

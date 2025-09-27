@@ -19,7 +19,7 @@
                 <!-- Form Section -->
                 <form method="POST" action="{{ route('caten-dental-checkups.update', $catenDentalCheckup) }}">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="px-6 py-4 space-y-6">
                         <!-- Patient Selection with Search -->
                         <div>
@@ -324,19 +324,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Include Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Include jQuery (required for Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Include Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <link href="{{ asset('app/search.css') }}" rel="stylesheet">
-
-    <script>
-        const pasienSearchUrl = "{{ route('ajax.caten-search') }}";
-    </script>
-
-    <script src="{{ asset('app/caten-search.js') }}"></script>
 </x-app-layout>

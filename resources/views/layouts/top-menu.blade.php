@@ -37,47 +37,52 @@
             </button>
 
             <!-- Dropdown Profil -->
-            <x-dropdown>
-                <x-slot name="trigger">
-                    <button class="flex items-center space-x-2 rounded-full focus:outline-none focus:shadow-outline-purple"
-                            @click="toggleProfileMenu" @keydown.escape="closeProfileMenu"
-                            aria-label="Account" aria-haspopup="true">
-                        <img class="w-8 h-8 rounded-full object-cover"
-                             src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6b46c1&color=fff"
-                             alt="User avatar" />
-                        <span class="text-sm font-medium text-gray-700 hidden sm:block">
-                            {{ Auth::user()->name }}
-                        </span>
-                    </button>
-                </x-slot>
-
-                <x-slot name="content">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape="open = false"
+                        class="flex items-center space-x-2 rounded-full focus:outline-none focus:ring">
+                    <img class="w-8 h-8 rounded-full object-cover"
+                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6b46c1&color=fff"
+                         alt="User avatar" />
+                    <span class="text-sm font-medium text-gray-700 hidden sm:block">
+                        {{ Auth::user()->name }}
+                    </span>
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            
+                <!-- Dropdown Menu -->
+                <div x-show="open" @click.away="open = false"
+                     x-transition
+                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                     <!-- Link Profil -->
-                    <x-dropdown-link href="{{ route('profile.edit') }}">
-                        <x-slot name="icon">
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M12 4.354a4 4 0 00-3.682 2.401L8 7m4-2.646V7m0 0v2m0 2v7m0 0H8m4 0h4" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </x-slot>
+                    <a href="{{ route('profile.edit') }}"
+                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
                         {{ __('Profile') }}
-                    </x-dropdown-link>
-
+                    </a>
+            
                     <!-- Logout -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-dropdown-link :href="route('logout')"
-                                         onclick="event.preventDefault(); this.closest('form').submit();">
-                            <x-slot name="icon">
-                                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                </svg>
-                            </x-slot>
+                        <button type="submit"
+                                class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left">
+                            <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
                             {{ __('Log Out') }}
-                        </x-dropdown-link>
+                        </button>
                     </form>
-                </x-slot>
-            </x-dropdown>
+                </div>
+            </div>
+
         </div>
     </div>
 </header>

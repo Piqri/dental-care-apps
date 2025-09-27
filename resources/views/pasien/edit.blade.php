@@ -57,7 +57,7 @@
                 <div class="p-6">
                     <form method="POST" action="{{ route('pasien.update', $pasien->id) }}" id="pasienForm">
                         @csrf
-                        @method('PUT')
+                        @method('PATCH')
 
                         <!-- Patient Type Selection (Disabled for edit) -->
                         <div class="mb-8">
@@ -82,7 +82,7 @@
                                 <div>
                                     <label for="nama" class="text-sm font-medium text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
                                     <input type="text" name="nama" id="nama" value="{{ old('nama', $pasien->nama) }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]"
                                         required>
                                     @error('nama')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -104,7 +104,7 @@
                                 <div>
                                     <label for="tempat_lahir" class="text-sm font-medium text-gray-700">Tempat Lahir <span class="text-red-500">*</span></label>
                                     <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir', $pasien->tempat_lahir) }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]"
                                         required>
                                     @error('tempat_lahir')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -113,7 +113,7 @@
                                 <div>
                                     <label for="tanggal_lahir" class="text-sm font-medium text-gray-700">Tanggal Lahir <span class="text-red-500">*</span></label>
                                     <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir', $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '') }}"
-                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]"
                                         required>
                                     @error('tanggal_lahir')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -135,7 +135,7 @@
                                                 inputmode="numeric" pattern="\d*"
                                                 maxlength="16"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,16);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nik')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -146,7 +146,7 @@
                                             <input type="text" name="no_wa" id="no_wa_ibu_hamil" value="{{ old('no_wa', $pasien->no_wa) }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -156,7 +156,7 @@
                                     <div>
                                         <label for="alamat_ibu_hamil" class="text-sm font-medium text-gray-700">Alamat</label>
                                         <textarea name="alamat" id="alamat_ibu_hamil" rows="3"
-                                        class="mt-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3">{{ old('alamat', $pasien->alamat) }}</textarea>
+                                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2">{{ old('alamat', $pasien->alamat) }}</textarea>
                                         @error('alamat')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -169,7 +169,7 @@
                                         <div>
                                             <label for="nama_orang_tua" class="text-sm font-medium text-gray-700">Nama Orang Tua <span class="text-red-500">*</span></label>
                                             <input type="text" name="nama_orang_tua" id="nama_orang_tua" value="{{ old('nama_orang_tua', $pasien->nama_orang_tua) }}"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nama_orang_tua')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -179,7 +179,7 @@
                                             <input type="text" name="no_wa" id="no_wa_anak_sekolah" value="{{ old('no_wa', $pasien->no_wa) }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -189,7 +189,7 @@
                                     <div>
                                         <label for="alamat_anak_sekolah" class="text-sm font-medium text-gray-700">Alamat</label>
                                         <textarea name="alamat" id="alamat_anak_sekolah" rows="3"
-                                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('alamat', $pasien->alamat) }}</textarea>
+                                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2">{{ old('alamat', $pasien->alamat) }}</textarea>
                                         @error('alamat')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -207,7 +207,7 @@
                                                 inputmode="numeric" pattern="\d*"
                                                 maxlength="16"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,16);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('nik')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -218,7 +218,7 @@
                                             <input type="text" name="no_wa" id="no_wa_caten" value="{{ old('no_wa', $pasien->no_wa) }}"
                                                 inputmode="numeric" pattern="\d*" maxlength="15"
                                                 oninput="this.value = this.value.replace(/\D/g, '').slice(0,15);"
-                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                                class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2 h-[40px]">
                                             @error('no_wa')
                                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
@@ -228,7 +228,7 @@
                                     <div>
                                         <label for="alamat_caten" class="text-sm font-medium text-gray-700">Alamat</label>
                                         <textarea name="alamat" id="alamat_caten" rows="3"
-                                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('alamat', $pasien->alamat) }}</textarea>
+                                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm px-3 py-2">{{ old('alamat', $pasien->alamat) }}</textarea>
                                         @error('alamat')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -253,6 +253,4 @@
     </div>
 
     <script src="{{ asset('js/pasien-form.js') }}"></script>
-
-
 </x-app-layout>

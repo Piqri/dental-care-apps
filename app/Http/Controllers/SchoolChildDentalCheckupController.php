@@ -13,10 +13,11 @@ class SchoolChildDentalCheckupController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index(Request $request)
     {
         $search = $request->query('search');
-
+        
         $checkups = SchoolChildDentalCheckup::with('pasien')
             ->when($search, function($query, $search) {
                 return $query->whereHas('pasien', function($q) use ($search) {
@@ -26,8 +27,16 @@ class SchoolChildDentalCheckupController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
-        return view('school-child-dental-checkups.index', compact('checkups', 'search'));
+    
+        // Calculate statistics
+        $stats = [
+            'need_action' => SchoolChildDentalCheckup::where(function($q) {
+                $q->where('saran_konsultasi', 'Ya')
+                  ->orWhere('saran_kontrol_rutin', 'Ya');
+            })->count()
+        ];
+            
+        return view('school-child-dental-checkups.index', compact('checkups', 'stats'));
     }
 
     /**
@@ -39,7 +48,7 @@ class SchoolChildDentalCheckupController extends Controller
     }
 
     public function createWithPasien(Pasien $pasien)
-{
+    {
     return view('school-child-dental-checkups.create', [
         'pasien' => $pasien
     ]);
@@ -177,46 +186,56 @@ class SchoolChildDentalCheckupController extends Controller
     {
         $checkup = SchoolChildDentalCheckup::with('pasien')->findOrFail($id);
 
-        // Data kondisi gigi
         $kondisiFields = [
-            'kondisi_karies' => 'KARIES',
+            'kondisi_karies'      => 'KARIES',
             'kondisi_karang_gigi' => 'KARANG GIGI',
             'kondisi_gigi_goyang' => 'GIGI GOYANG',
-            'kondisi_sisa_akar' => 'SISA AKAR',
+            'kondisi_sisa_akar'   => 'SISA AKAR',
         ];
 
-        // Membuat pesan
+        // Buat hash dari ID
+        $hash = hash('sha256', $checkup->id . config('app.key'));
+
+        // Buat link publik dengan hash
+        $linkHasil = url('/school-child-dental-checkups/public/' . $hash);
+
         $message = "HASIL PEMERIKSAAN GIGI ANAK SEKOLAH\n\n";
         $message .= "Nama: {$checkup->pasien->nama}\n";
         $message .= "Tanggal: " . now()->translatedFormat('l, d F Y') . "\n\n";
 
-        $message .= "KONDISI GIGI:\n";
+        $message .= "HASIL PEMERIKSAAN:\n";
         foreach ($kondisiFields as $field => $label) {
             $value = $checkup->$field ? 'ADA' : 'TIDAK ADA';
-            $message .= "{$label}: {$value}\n";
+            $message .= "{$label} : {$value}\n";
         }
 
-        $message .= "\nJUMLAH GIGI: " . strtoupper($checkup->jumlah_gigi) . "\n";
+        $message .= "JUMLAH GIGI : " . strtoupper($checkup->jumlah_gigi) . "\n\n";
 
-        $message .= "\nSARAN:\n";
-        if ($checkup->saran_konsultasi == 'Ya') {
-            $message .= "• Disarankan untuk melakukan konsultasi dan perawatan ke dokter gigi\n";
+        $message .= "SARAN:\n";
+        if ($checkup->saran_konsultasi === 'Ya') {
+            $message .= "- Disarankan untuk melakukan konsultasi dan perawatan ke dokter gigi\n";
         }
-        if ($checkup->saran_kontrol_rutin == 'Ya') {
-            $message .= "• Disarankan untuk melakukan kontrol rutin\n";
+        if ($checkup->saran_kontrol_rutin === 'Ya') {
+            $message .= "- Disarankan untuk melakukan kontrol rutin\n";
         }
 
-        if ($checkup->catatan) {
+        if (!empty($checkup->catatan)) {
             $message .= "\nCATATAN:\n{$checkup->catatan}\n";
         }
 
-        $message .= "\nTerima kasih.";
+        $message .= "\n🔗 *LINK HASIL PEMERIKSAAN LENGKAP:*\n{$linkHasil}\n\n";
+        $message .= "Terima kasih.";
 
-        return response()->json([
-            'message' => $message,
-            'phone_number' => $checkup->pasien->no_wa
-        ]);
+        $encodedMessage = urlencode($message);
+
+        $phone = $checkup->pasien->no_wa;
+        $phone = preg_replace('/^\+/', '', $phone);
+        $phone = preg_replace('/^0/', '62', $phone);
+
+        return redirect()->away("https://wa.me/{$phone}?text={$encodedMessage}");
     }
+
+
 
     public function print($id)
     {
@@ -227,4 +246,45 @@ class SchoolChildDentalCheckupController extends Controller
 
         return $pdf->stream('pemeriksaan-gigi-anak-sekolah-'.$schoolChildDentalCheckup->pasien->nama.'.pdf');
     }
+    
+    public function searchPasien(Request $request)
+    {
+        $search = $request->input('q');
+
+        $result = Pasien::where('jenis_pasien', 'anak_sekolah')        // ← tambah filter jenis pasien
+            ->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nik', 'like', "%{$search}%");
+            })
+            ->orderBy('nama')
+            ->limit(20)
+            ->get();
+
+        return response()->json(
+            $result->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'text' => "{$p->nama} (NIK: {$p->nik}, {$p->umur} tahun)",
+                ];
+            })
+        );
+    }
+    
+    public function showPublic($hash)
+    {
+        // Cari data dengan validasi hash
+        $checkup = SchoolChildDentalCheckup::with('pasien')->get()
+            ->first(function ($item) use ($hash) {
+                return hash('sha256', $item->id . config('app.key')) === $hash;
+            });
+
+        if (!$checkup) {
+            abort(404, 'Data pemeriksaan tidak ditemukan.');
+        }
+
+        return view('school-child-dental-checkups.show', [
+            'schoolChildDentalCheckup' => $checkup
+        ]);
+    }
+
 }
