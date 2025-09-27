@@ -8,6 +8,7 @@ use App\Http\Controllers\CatenDentalCheckupController;
 use App\Http\Controllers\SchoolChildDentalCheckupController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return Auth::check()
@@ -15,9 +16,9 @@ Route::get('/', function () {
         : redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
 
 
 // ==================
@@ -139,10 +140,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/pregnant-dental-checkups/public/{hash}', [PregnantDentalCheckupController::class, 'showPublic'])
     ->name('pregnant-dental-checkups.public');
-    
+
 Route::get('/caten-dental-checkups/public/{hash}', [CatenDentalCheckupController::class, 'showPublic'])
     ->name('caten-dental-checkups.public');
-    
+
 Route::get('/school-child-dental-checkups/public/{hash}', [SchoolChildDentalCheckupController::class, 'showPublic'])
     ->name('school-child-dental-checkups.public');
 
