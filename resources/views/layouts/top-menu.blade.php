@@ -26,9 +26,10 @@
         <!-- KANAN: Menu Profil dan Hamburger -->
         <div class="flex items-center space-x-6">
 
-            <!-- Hamburger untuk Mobile -->
+            <!-- Hamburger untuk Mobile - PERBAIKAN: @click yang benar -->
             <button class="p-2 rounded-md md:hidden text-purple-600 hover:bg-purple-100 focus:outline-none"
-                    @click="toggleSideMenu" aria-label="Menu">
+                    @click="isSideMenuOpen = !isSideMenuOpen"
+                    aria-label="Menu">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                           d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
@@ -51,7 +52,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
-            
+
                 <!-- Dropdown Menu -->
                 <div x-show="open" @click.away="open = false"
                      x-transition
@@ -66,7 +67,7 @@
                         </svg>
                         {{ __('Profile') }}
                     </a>
-            
+
                     <!-- Logout -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

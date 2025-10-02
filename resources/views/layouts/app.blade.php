@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html x-data="data" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,7 +74,17 @@
     </style>
 </head>
 <body class="bg-gray-50">
+<!-- PERBAIKAN: x-data dengan method yang benar -->
 <div
+    x-data="{
+        isSideMenuOpen: false,
+        toggleSideMenu() {
+            this.isSideMenuOpen = !this.isSideMenuOpen;
+        },
+        closeSideMenu() {
+            this.isSideMenuOpen = false;
+        }
+    }"
     class="flex h-screen bg-gray-50"
     :class="{ 'overflow-hidden': isSideMenuOpen }"
 >
@@ -116,7 +126,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- Alpine.js -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js" defer></script>
 
 <!-- DataTables Tailwind Integration -->
 <script>
@@ -126,7 +136,7 @@
     });
 </script>
 <script src="{{ asset('js/pasien-form.js') }}"></script>
-<!-- Bootstrap JS Bundle (wajib untuk dropdown bekerja) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

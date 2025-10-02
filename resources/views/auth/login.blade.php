@@ -26,7 +26,7 @@
                             autofocus />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
-                    
+
                     <!-- Input[type="password"] -->
                     <div class="mt-4">
                         <x-input-label for="password" :value="__('Password')" />
@@ -49,14 +49,14 @@
 
                 <hr class="my-8"/>
 
-                @if (Route::has('password.request'))
+                {{-- @if (Route::has('password.request'))
                     <p class="mt-4">
                         <a class="text-sm font-medium text-primary-600 hover:underline"
                            href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
                         </a>
                     </p>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>
